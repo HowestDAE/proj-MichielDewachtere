@@ -10,7 +10,14 @@
         Title="MainWindow" Height="680" Width="570"
         Background="#333">
 
-    <Window.Content>
-        <view:OverViewPage/>
-    </Window.Content>
+    <Window.DataContext>
+        <vm:MainVM/>
+    </Window.DataContext>
+    <Grid>
+        <Frame NavigationUIVisibility="Hidden"
+               Content="{Binding CurrentPage}"/>
+        <Button VerticalAlignment="Bottom"
+                Command="{Binding SwitchPageCommand}"
+                Content="{Binding CommandText}"/>
+    </Grid>
 </Window>
