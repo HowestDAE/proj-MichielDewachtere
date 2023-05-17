@@ -34,8 +34,8 @@ namespace RickAndMorty.Model
 
         }
         public string Gender { get; set; }
-        //public Origin Origin { get; set; }
-        //public Location Location { get; set; }
+        public Location Origin { get; set; }
+        public Location Location { get; set; }
         public string Image
         {
             get
