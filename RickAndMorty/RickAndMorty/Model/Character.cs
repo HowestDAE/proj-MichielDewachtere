@@ -24,7 +24,7 @@ namespace RickAndMorty.Model
             {
                 if (value.Length != 0)
                 {
-                    _type = $"({Type})";
+                    _type = $"({value})";
                 }
                 else
                 {
