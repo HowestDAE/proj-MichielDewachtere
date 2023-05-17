@@ -87,6 +87,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Character.cs" />
+    <Compile Include="Repository\Local\CharacterLocalRepository.cs" />
+    <Compile Include="Repository\Interface\ICharacterRepository.cs" />
     <Compile Include="ViewModel\CharacterPageVM.cs" />
     <Compile Include="View\CharacterDetail.xaml.cs">
       <DependentUpon>CharacterDetail.xaml</DependentUpon>
@@ -131,13 +133,16 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\Data\characters.json" />
+    <EmbeddedResource Include="Resources\Data\characters.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Repository\" />
+    <Folder Include="Repository\API\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\TestImages\RickSanchez.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.2.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.2.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
