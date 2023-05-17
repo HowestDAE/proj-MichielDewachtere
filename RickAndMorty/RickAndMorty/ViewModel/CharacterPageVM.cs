@@ -30,7 +30,15 @@ namespace RickAndMorty.ViewModel
                 Status = "Alive",
                 Species = "Human",
                 Type = "",
-                Gender = "Male"
+                Gender = "Male",
+                Origin = new Location()
+                {
+                    Name = "Earth (C-137)"
+                },
+                Location = new Location()
+                {
+                    Name = "Citadel of Ricks"
+                }
             };
         }
     }
