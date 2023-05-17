@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace RickAndMorty.View
 {
     /// <summary>
-    /// Interaction logic for CharacterDetail.xaml
+    /// Interaction logic for CharacterDetailPage.xaml
     /// </summary>
-    public partial class CharacterDetail : Page
+    public partial class CharacterDetailPage : Page
     {
-        public CharacterDetail()
+        public CharacterDetailPage()
         {
             InitializeComponent();
         }
