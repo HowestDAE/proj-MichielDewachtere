@@ -11,6 +11,6 @@
         Background="#333">
 
     <Window.Content>
-        <view:CharacterDetail/>
+        <view:OverViewPage/>
     </Window.Content>
 </Window>
