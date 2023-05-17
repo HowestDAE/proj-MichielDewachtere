@@ -92,11 +92,15 @@
     <Compile Include="Repository\Local\CharacterLocalRepository.cs" />
     <Compile Include="Repository\Interface\ICharacterRepository.cs" />
     <Compile Include="ViewModel\CharacterPageVM.cs" />
+    <Compile Include="ViewModel\OverViewVM.cs" />
     <Compile Include="View\CharacterDetail.xaml.cs">
       <DependentUpon>CharacterDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Converters\StatusToColorConverter.cs" />
     <Compile Include="View\Converters\UrlToImageConverter.cs" />
+    <Compile Include="View\OverViewPage.xaml.cs">
+      <DependentUpon>OverViewPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -110,6 +114,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\CharacterDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\OverViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
