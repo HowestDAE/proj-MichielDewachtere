@@ -12,7 +12,27 @@ namespace RickAndMorty.Model
         public string Name { get; set; }
         public string Status { get; set; }
         public string Species { get; set; }
-        public string Type { get; set; }
+
+        private string _type;
+        public string Type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                if (value.Length != 0)
+                {
+                    _type = $"({Type})";
+                }
+                else
+                {
+                    _type = value;
+                }
+            }
+
+        }
         public string Gender { get; set; }
         //public Origin Origin { get; set; }
         //public Location Location { get; set; }
