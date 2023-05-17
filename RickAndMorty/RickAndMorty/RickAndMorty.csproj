@@ -87,6 +87,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Character.cs" />
+    <Compile Include="Model\Episode.cs" />
     <Compile Include="Model\Location.cs" />
     <Compile Include="Repository\Local\CharacterLocalRepository.cs" />
     <Compile Include="Repository\Interface\ICharacterRepository.cs" />
