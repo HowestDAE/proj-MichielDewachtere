@@ -8,7 +8,7 @@ using RickAndMorty.Model;
 
 namespace RickAndMorty.ViewModel
 {
-    public class CharacterPageVM : ObservableObject
+    public class CharacterDetailPageVM : ObservableObject
     {
         private Character _currentCharacter;
         public Character CurrentCharacter
@@ -21,7 +21,7 @@ namespace RickAndMorty.ViewModel
             }
         }
 
-        public CharacterPageVM()
+        public CharacterDetailPageVM()
         {
             CurrentCharacter = new Character()
             {

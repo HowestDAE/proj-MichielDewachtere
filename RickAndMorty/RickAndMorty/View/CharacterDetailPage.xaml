@@ -11,7 +11,7 @@
       Background="#333">
 
     <Page.DataContext>
-        <vm:CharacterPageVM/>
+        <vm:CharacterDetailPageVM/>
     </Page.DataContext>
     <Page.Resources>
         <converter:UrlToImageConverter x:Key="UrlToImageConverter"/>

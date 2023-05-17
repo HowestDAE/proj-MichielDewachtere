@@ -91,10 +91,11 @@
     <Compile Include="Model\Location.cs" />
     <Compile Include="Repository\Local\CharacterLocalRepository.cs" />
     <Compile Include="Repository\Interface\ICharacterRepository.cs" />
-    <Compile Include="ViewModel\CharacterPageVM.cs" />
+    <Compile Include="ViewModel\CharacterDetailPageVM.cs" />
+    <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="ViewModel\OverViewVM.cs" />
-    <Compile Include="View\CharacterDetail.xaml.cs">
-      <DependentUpon>CharacterDetail.xaml</DependentUpon>
+    <Compile Include="View\CharacterDetailPage.xaml.cs">
+      <DependentUpon>CharacterDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Converters\StatusToColorConverter.cs" />
     <Compile Include="View\Converters\UrlToImageConverter.cs" />
@@ -113,7 +114,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\CharacterDetail.xaml">
+    <Page Include="View\CharacterDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
