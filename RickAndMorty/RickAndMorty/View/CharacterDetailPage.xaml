@@ -102,8 +102,8 @@
                 VerticalAlignment="Top" HorizontalAlignment="Center"/>
             <Rectangle
                 Grid.Column="0"
-                Height="3" 
-                Margin="50, 41,50,41"
+                Height="2"
+                Margin="50, 0,50,25"
                 Fill="DarkOrange"/>
             <Viewbox Grid.Column="0" 
                      Stretch="Uniform" StretchDirection="DownOnly"
@@ -122,6 +122,11 @@
                 FontSize="20"
                 Foreground="White"
                 VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Rectangle
+                Grid.Column="1"
+                Height="2"
+                Margin="50, 0,50,25"
+                Fill="DarkOrange"/>
             <Viewbox Grid.Column="1" 
                      Stretch="Uniform" StretchDirection="DownOnly"
                      Margin="5,0,5,0">
@@ -131,11 +136,6 @@
                     Foreground="White"
                     VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
             </Viewbox>
-            <Rectangle
-                Grid.Column="1"
-                Height="3"
-                Margin="50, 41,50,41"
-                Fill="DarkOrange"/>
         </Grid>
         <Grid Grid.Row="3"
               Background="#30000000"
@@ -152,7 +152,7 @@
                 VerticalAlignment="Center" HorizontalAlignment="Left"
                 Margin="10"/>
             <Rectangle
-                Width="3"
+                Grid.Column="0" Width="3"
                 Fill="DarkOrange"
                 HorizontalAlignment="Right"
                 Margin="10"/>
