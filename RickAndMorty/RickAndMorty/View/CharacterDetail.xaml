@@ -108,13 +108,13 @@
             <!--Current location of the character-->
             <TextBlock
                 Grid.Column="1"
-                Text="Latest Known Location"
+                Text="Last Known Location"
                 FontSize="24"
                 Foreground="White"
                 VerticalAlignment="Top" HorizontalAlignment="Center"/>
             <Rectangle
                 Grid.Column="1"
-                Height="3" 
+                Height="3"
                 Margin="50, 41,50,41"
                 Fill="DarkOrange"/>
             <TextBlock
@@ -124,8 +124,44 @@
                 Foreground="White"
                 VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
         </Grid>
-        <Grid Grid.Row="3">
-            
+        <Grid Grid.Row="3"
+              Background="#30000000"
+              Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.35*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--Episodes Text-->
+            <TextBlock 
+                Text="Episode(s)"
+                Foreground="White"
+                FontSize="24" FontWeight="DemiBold"
+                VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin="10"/>
+            <Rectangle
+                Width="3"
+                Fill="DarkOrange"
+                HorizontalAlignment="Right"
+                Margin="10"/>
+            <!--Episodes List-->
+            <ListBox Grid.Column="1"
+                     Margin="0,10,0,10"
+                     ItemsSource="{Binding CurrentCharacter.Episodes}"
+                     Background="Transparent"
+                     BorderThickness="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="White"
+                                       FontSize="16">
+                                <Run Text="{Binding Path=EpisodeNumber}"/>
+                                <Run Text=" - "/>
+                                <Run Text="{Binding Path=Name}"/>
+                            </TextBlock>
+                            </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </Grid>
 </Page>
