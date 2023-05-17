@@ -3,13 +3,83 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:RickAndMorty.View"
+      xmlns:vm="clr-namespace:RickAndMorty.ViewModel"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="680" d:DesignWidth="570"
       Title="CharacterDetail"
-      Background="Aqua">
+      Background="#333">
 
+    <Page.DataContext>
+        <vm:CharacterPageVM/>
+    </Page.DataContext>
+    <Page.Resources>
+
+    </Page.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="FontSize" Value="24"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--Name of the character-->
+            <TextBlock 
+                Grid.Row="1" Grid.Column="1"
+                Text="{Binding CurrentCharacter.Name, FallbackValue=Rick/ Sanchez}"
+                FontSize="35"
+                FontWeight="Bold"/>
+            <!--Status of the character-->
+            <Ellipse
+                Grid.Row="2" Grid.Column="1"
+                Fill="Lime"
+                Width="10" Height="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"/>
+            <TextBlock
+                Grid.Row="2" Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="20, 0,0,0">
+                <Run Text="{Binding CurrentCharacter.Status, FallbackValue=Alive}"/>
+                <Run Text="-"/>
+                <Run Text="{Binding CurrentCharacter.Species, FallbackValue=Human}"/>
+                <Run Text="{Binding CurrentCharacter.Type, FallbackValue=/}"/>
+            </TextBlock>
+            <!--Gender of the character-->
+            <TextBlock Grid.Row="3" Grid.Column="1">
+                <Run Text="Gender: "/>
+                <Run Text="{Binding CurrentCharacter.Gender, FallbackValue=Male}"/>
+            </TextBlock>
+            <!--Image of the character-->
+            <Image 
+                Grid.Row="0"
+                Grid.RowSpan="5" 
+                Grid.Column="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="5"
+                Source="../Resources/TestImages/RickSanchez.jpeg"/>
+        </Grid>
+
     </Grid>
 </Page>
