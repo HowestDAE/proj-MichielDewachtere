@@ -45,11 +45,14 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <!--Name of the character-->
-            <TextBlock 
-                Grid.Row="1" Grid.Column="1"
-                Text="{Binding CurrentCharacter.Name, FallbackValue=Rick/ Sanchez}"
-                FontSize="35"
-                FontWeight="Bold"/>
+            <Viewbox Grid.Row="1" Grid.Column="1" 
+                     Stretch="Uniform" StretchDirection="DownOnly"
+                     Margin="0,0,5,0">
+                <TextBlock 
+                    Text="{Binding CurrentCharacter.Name, FallbackValue=Rick/ Sanchez}"
+                    FontSize="35"
+                    FontWeight="Bold"/>
+            </Viewbox>
             <!--Status of the character-->
             <Ellipse
                 Grid.Row="2" Grid.Column="1"
@@ -57,16 +60,19 @@
                 Width="10" Height="10"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"/>
-            <TextBlock
-                Grid.Row="2" Grid.Column="1"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Margin="20, 0,0,0">
-                <Run Text="{Binding CurrentCharacter.Status, FallbackValue=Alive}"/>
-                <Run Text="-"/>
-                <Run Text="{Binding CurrentCharacter.Species, FallbackValue=Human}"/>
-                <Run Text="{Binding CurrentCharacter.Type, FallbackValue=/}"/>
-            </TextBlock>
+            <Viewbox Grid.Row="2" Grid.Column="1" 
+                     Stretch="Uniform" StretchDirection="DownOnly"
+                     Margin="0,0,5,0">
+                    <TextBlock
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Margin="20, 0,0,0">
+                    <Run Text="{Binding CurrentCharacter.Status, FallbackValue=Alive}"/>
+                    <Run Text="-"/>
+                    <Run Text="{Binding CurrentCharacter.Species, FallbackValue=Human}"/>
+                    <Run Text="{Binding CurrentCharacter.Type, FallbackValue=/}"/>
+                    </TextBlock>
+            </Viewbox>
             <!--Gender of the character-->
             <TextBlock Grid.Row="3" Grid.Column="1">
                 <Run Text="Gender: "/>
@@ -91,7 +97,7 @@
             <TextBlock
                 Grid.Column="0"
                 Text="Origin"
-                FontSize="24"
+                FontSize="20"
                 Foreground="White"
                 VerticalAlignment="Top" HorizontalAlignment="Center"/>
             <Rectangle
@@ -99,30 +105,37 @@
                 Height="3" 
                 Margin="50, 41,50,41"
                 Fill="DarkOrange"/>
-            <TextBlock
-                Grid.Column="0"
-                Text="{Binding CurrentCharacter.Origin.Name}"
-                FontSize="28" FontWeight="DemiBold"
-                Foreground="White"
-                VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-            <!--Current location of the character-->
+            <Viewbox Grid.Column="0" 
+                     Stretch="Uniform" StretchDirection="DownOnly"
+                     Margin="5,0,5,0" >
+                <TextBlock
+                    Text="{Binding CurrentCharacter.Origin.Name}"
+                    FontSize="28" FontWeight="DemiBold"
+                    Foreground="White"
+                    
+                    VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            </Viewbox>
+            <!--Last known location of the character-->
             <TextBlock
                 Grid.Column="1"
                 Text="Last Known Location"
-                FontSize="24"
+                FontSize="20"
                 Foreground="White"
                 VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Viewbox Grid.Column="1" 
+                     Stretch="Uniform" StretchDirection="DownOnly"
+                     Margin="5,0,5,0">
+                <TextBlock
+                    Text="{Binding CurrentCharacter.Location.Name}"
+                    FontSize="28" FontWeight="DemiBold"
+                    Foreground="White"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            </Viewbox>
             <Rectangle
                 Grid.Column="1"
                 Height="3"
                 Margin="50, 41,50,41"
                 Fill="DarkOrange"/>
-            <TextBlock
-                Grid.Column="1"
-                Text="{Binding CurrentCharacter.Location.Name}"
-                FontSize="28" FontWeight="DemiBold"
-                Foreground="White"
-                VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
         </Grid>
         <Grid Grid.Row="3"
               Background="#30000000"
