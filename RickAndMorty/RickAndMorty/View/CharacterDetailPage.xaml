@@ -160,6 +160,7 @@
             <ListBox Grid.Column="1"
                      Margin="0,10,0,10"
                      ItemsSource="{Binding CurrentCharacter.Episodes}"
+                     SelectedItem="{Binding SelectedEpisode}"
                      Background="Transparent"
                      BorderThickness="0">
                 <ListBox.ItemTemplate>
