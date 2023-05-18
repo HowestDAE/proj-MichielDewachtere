@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -94,8 +95,8 @@ namespace RickAndMorty.Repository.API
                     Species = character.Value<string>("species"),
                     Type = character.Value<string>("type"),
                     Gender = character.Value<string>("gender"),
-                    Origin = new Location(),
-                    Location = new Location(),
+                    OriginId = GetIdFromLocationURL(character.Value<JObject>("origin")?.Value<string>("url")),
+                    LocationId = GetIdFromLocationURL(character.Value<JObject>("location")?.Value<string>("url")),
                     EpisodesIds = new List<int>()
                 };
 
@@ -127,6 +128,27 @@ namespace RickAndMorty.Repository.API
             }
 
             return characters;
+        }
+
+        private int GetIdFromLocationURL(string url)
+        {
+            if (url == "") 
+                return -1;
+
+            // Find the index of the first forward slash after the word "character"
+            int slashIndex = url.IndexOf("/location/") + "/location/".Length;
+
+            // Extract the substring starting from the index of the first forward slash
+            string idString = url.Substring(slashIndex);
+
+            // Parse the extracted substring to an integer
+            int id = -1;
+            if (int.TryParse(idString, out id))
+            {
+                return id;
+            }
+
+            return id;
         }
 
         public async Task<List<Character>> GetCharactersByNameAsync(string name)
@@ -163,23 +185,22 @@ namespace RickAndMorty.Repository.API
             var characters = await GetCharactersAsync();
             var filteredCharacters = characters.Where(c => c.Gender.Equals(gender)).ToList();
             return filteredCharacters;
-
         }
 
         public async Task<List<Character>> GetCharactersByOriginAsync(string origin)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Origin.Name.Equals(origin)).ToList();
-            return filteredCharacters;
-
+            //var filteredCharacters = characters.Where(c => c.Origin.Name.Equals(origin)).ToList();
+            //return filteredCharacters;
+            return null;
         }
 
         public async Task<List<Character>> GetCharactersByLocationAsync(string location)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Location.Name.Equals(location)).ToList();
-            return filteredCharacters;
-
+            //var filteredCharacters = characters.Where(c => c.Location.Name.Equals(location)).ToList();
+            //return filteredCharacters;
+            return null;
         }
 
         public async Task<List<Character>> GetCharactersByEpisodeAsync(string episode)
