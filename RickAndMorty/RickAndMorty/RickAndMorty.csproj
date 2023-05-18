@@ -89,6 +89,7 @@
     <Compile Include="Model\Character.cs" />
     <Compile Include="Model\Episode.cs" />
     <Compile Include="Model\Location.cs" />
+    <Compile Include="Repository\API\CharacterAPIRepository.cs" />
     <Compile Include="Repository\Local\CharacterLocalRepository.cs" />
     <Compile Include="Repository\Interface\ICharacterRepository.cs" />
     <Compile Include="ViewModel\CharacterDetailPageVM.cs" />
@@ -170,9 +171,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repository\API\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\TestImages\RickSanchez.jpeg" />
   </ItemGroup>
