@@ -1,5 +1,5 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System;
+using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RickAndMorty.Model;
@@ -12,6 +12,7 @@ namespace RickAndMorty.ViewModel
         public string CommandText { get; set; }
         public OverViewPage MainPage { get; set; }
         public CharacterDetailPage CharacterDetailPage { get; set; }
+        public EpisodeDetailPage EpisodeDetailPage { get; set; }
         public Page CurrentPage { get; set; }
         public RelayCommand SwitchPageCommand { get; set; }
 
@@ -19,6 +20,7 @@ namespace RickAndMorty.ViewModel
         {
             MainPage = new OverViewPage();
             CharacterDetailPage = new CharacterDetailPage();
+            EpisodeDetailPage = new EpisodeDetailPage();
             CurrentPage = MainPage;
 
             CommandText = "Show Details";
@@ -30,7 +32,7 @@ namespace RickAndMorty.ViewModel
         {
             if (CurrentPage is OverViewPage)
             {
-                Character selectedCharacter = (MainPage.DataContext as OverViewVM)?.SelectedCharacter;
+                Character selectedCharacter = (CurrentPage.DataContext as OverViewVM)?.SelectedCharacter;
                 if (selectedCharacter == null)
                     return;
 
@@ -39,16 +41,36 @@ namespace RickAndMorty.ViewModel
                 CurrentPage = CharacterDetailPage;
                 OnPropertyChanged(nameof(CurrentPage));
 
-                CommandText = "Go Back";
-                OnPropertyChanged(nameof(CommandText));
+                //CommandText = "Go Back";
+                //OnPropertyChanged(nameof(CommandText));
             }
             else if (CurrentPage is CharacterDetailPage)
             {
-                CurrentPage = MainPage;
+                //CurrentPage = MainPage;
+                //OnPropertyChanged(nameof(CurrentPage));
+                //
+                //CommandText = "Show Details";
+                //OnPropertyChanged(nameof(CommandText));
+
+                if (!(CurrentPage.DataContext is CharacterDetailPageVM characterPageVm))
+                {
+                    Console.WriteLine("error");
+                    return;
+                }
+
+                Episode selectedEpisode = characterPageVm.SelectedEpisode;
+                if (selectedEpisode == null)
+                {
+                    Console.WriteLine("SelectedEpisode was null");
+                    return;
+                }
+
+                ((EpisodeDetailPageVM)EpisodeDetailPage.DataContext).CurrentEpisode = selectedEpisode;
+
+                CurrentPage = EpisodeDetailPage;
                 OnPropertyChanged(nameof(CurrentPage));
 
-                CommandText = "Show Details";
-                OnPropertyChanged(nameof(CommandText));
+
             }
         }
     }
