@@ -91,6 +91,7 @@
             <ListBox Grid.Row="1" 
                      Margin="10"
                      ItemsSource="{Binding CurrentEpisode.Characters}"
+                     SelectedItem="{Binding SelectedCharacter}"
                      Background="Transparent"
                      BorderThickness="0"
                      HorizontalAlignment="Stretch"

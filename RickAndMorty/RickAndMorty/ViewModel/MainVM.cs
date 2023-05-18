@@ -69,8 +69,17 @@ namespace RickAndMorty.ViewModel
 
                 CurrentPage = EpisodeDetailPage;
                 OnPropertyChanged(nameof(CurrentPage));
+            }
+            else if (CurrentPage is EpisodeDetailPage)
+            {
+                Character selectedCharacter = (CurrentPage.DataContext as EpisodeDetailPageVM)?.SelectedCharacter;
+                if (selectedCharacter == null)
+                    return;
 
+                ((CharacterDetailPageVM)CharacterDetailPage.DataContext).CurrentCharacter = selectedCharacter;
 
+                CurrentPage = CharacterDetailPage;
+                OnPropertyChanged(nameof(CurrentPage));
             }
         }
     }

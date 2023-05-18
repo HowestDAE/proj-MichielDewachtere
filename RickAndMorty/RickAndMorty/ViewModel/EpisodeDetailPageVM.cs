@@ -7,8 +7,7 @@ namespace RickAndMorty.ViewModel
     public class EpisodeDetailPageVM : ObservableObject
     {
 		private Episode _currentEpisode;
-
-		public Episode CurrentEpisode
+        public Episode CurrentEpisode
 		{
 			get { return _currentEpisode; }
             set
@@ -20,6 +19,22 @@ namespace RickAndMorty.ViewModel
                 //}
             }
         }
+
+        private Character _selectedCharacter;
+
+        public Character SelectedCharacter
+        {
+            get { return _selectedCharacter; }
+            set
+            {
+                if (_selectedCharacter != value)
+                {
+                    _selectedCharacter = value;
+                    OnPropertyChanged(nameof(SelectedCharacter));
+                }
+            }
+        }
+
 
         public EpisodeDetailPageVM()
         {
