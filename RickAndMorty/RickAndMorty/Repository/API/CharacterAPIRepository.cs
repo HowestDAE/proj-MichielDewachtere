@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RickAndMorty.Model;
 using RickAndMorty.Repository.Interface;
@@ -56,7 +54,7 @@ namespace RickAndMorty.Repository.API
                     if (characterList != null) 
                         _characters.AddRange(characterList);
 
-                    var adress = pageInfo.Value<JObject>("info").Value<string>("next");
+                    var adress = pageInfo.Value<JObject>("info")?.Value<string>("next");
                     if (adress != null)
                     {
                         NextPage = new Uri(adress);
@@ -109,16 +107,19 @@ namespace RickAndMorty.Repository.API
                         var address = episode.Value<string>();
 
                         // Find the index of the first forward slash after the word "character"
-                        int slashIndex = address.IndexOf("/episode/") + "/episode/".Length;
-
-                        // Extract the substring starting from the index of the first forward slash
-                        string idString = address.Substring(slashIndex);
-
-                        // Parse the extracted substring to an integer
-                        int id;
-                        if (int.TryParse(idString, out id))
+                        if (address != null)
                         {
-                            episodeIds.Add(id);
+                            int slashIndex = address.IndexOf("/episode/", StringComparison.Ordinal) + "/episode/".Length;
+
+                            // Extract the substring starting from the index of the first forward slash
+                            string idString = address.Substring(slashIndex);
+
+                            // Parse the extracted substring to an integer
+                            int id;
+                            if (int.TryParse(idString, out id))
+                            {
+                                episodeIds.Add(id);
+                            }
                         }
                     }
 
