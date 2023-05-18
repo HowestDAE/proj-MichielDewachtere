@@ -42,34 +42,34 @@ namespace RickAndMorty.ViewModel
                 {
                     Name = "Citadel of Ricks"
                 },
-                Episodes = new List<Episode>()
+                //Episodes = new List<Episode>()
             };
             
-            CurrentCharacter.Episodes.Add(new Episode()
-            {
-                EpisodeNumber = "S01E01",
-                Name = "Pilot"
-            });
-            CurrentCharacter.Episodes.Add(new Episode()
-            {
-                EpisodeNumber = "S01E02",
-                Name = "Lawnmower Dog"
-            });
-            CurrentCharacter.Episodes.Add(new Episode()
-            {
-                EpisodeNumber = "S01E03",
-                Name = "Anatomy Park"
-            });
-            CurrentCharacter.Episodes.Add(new Episode()
-            {
-                EpisodeNumber = "S01E04",
-                Name = "M. Night Shaym-Aliens"
-            });
-            CurrentCharacter.Episodes.Add(new Episode()
-            {
-                EpisodeNumber = "S01E05",
-                Name = "Meeseeks and Destroy"
-            });
+            //CurrentCharacter.Episodes.Add(new Episode()
+            //{
+            //    EpisodeNumber = "S01E01",
+            //    Name = "Pilot"
+            //});
+            //CurrentCharacter.Episodes.Add(new Episode()
+            //{
+            //    EpisodeNumber = "S01E02",
+            //    Name = "Lawnmower Dog"
+            //});
+            //CurrentCharacter.Episodes.Add(new Episode()
+            //{
+            //    EpisodeNumber = "S01E03",
+            //    Name = "Anatomy Park"
+            //});
+            //CurrentCharacter.Episodes.Add(new Episode()
+            //{
+            //    EpisodeNumber = "S01E04",
+            //    Name = "M. Night Shaym-Aliens"
+            //});
+            //CurrentCharacter.Episodes.Add(new Episode()
+            //{
+            //    EpisodeNumber = "S01E05",
+            //    Name = "Meeseeks and Destroy"
+            //});
         }
     }
 }
