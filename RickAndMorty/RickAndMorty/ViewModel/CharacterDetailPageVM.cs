@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RickAndMorty.Model;
 
@@ -19,6 +15,13 @@ namespace RickAndMorty.ViewModel
                 _currentCharacter = value;
                 OnPropertyChanged();
             }
+        }
+
+        private Episode _selectedEpisode;
+        public Episode SelectedEpisode
+        {
+            get { return _selectedEpisode; }
+            set { _selectedEpisode = value; }
         }
 
         public CharacterDetailPageVM()
@@ -41,7 +44,7 @@ namespace RickAndMorty.ViewModel
                 },
                 Episodes = new List<Episode>()
             };
-
+            
             CurrentCharacter.Episodes.Add(new Episode()
             {
                 EpisodeNumber = "S01E01",
