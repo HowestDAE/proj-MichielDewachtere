@@ -35,8 +35,51 @@ namespace RickAndMorty.Model
 
         }
         public string Gender { get; set; }
-        public Location Origin { get; set; }
-        public Location Location { get; set; }
+       
+        //Location data
+        public int OriginId { get; set; }
+        private Location _origin { get; set; }
+        public Location Origin
+        {
+            get
+            {
+                if (OriginId == -1)
+                    return null;
+
+                LoadOriginAsync(OriginId);
+                return _origin;
+            }
+        }
+        private async void LoadOriginAsync(int id)
+        {
+            if (LocationAPIRepository.GetInstance().NextPage == null)
+            {
+                _origin = await LocationAPIRepository.GetInstance().GetLocationByIdAsync(id);
+            }
+        }
+
+        public int LocationId { get; set; }
+        private Location _location { get; set; }
+        public Location Location
+        {
+            get
+            {
+                if (LocationId == -1)
+                    return null;
+
+                LoadLocationAsync(LocationId);
+                return _location;
+            }
+        }
+        private async void LoadLocationAsync(int id)
+        {
+            if (LocationAPIRepository.GetInstance().NextPage == null)
+            {
+                _location = await LocationAPIRepository.GetInstance().GetLocationByIdAsync(id);
+            }
+        }
+
+
         public string Image
         {
             get
@@ -44,6 +87,8 @@ namespace RickAndMorty.Model
                 return $"https://rickandmortyapi.com/api/character/avatar/{Id}.jpeg";
             }
         }
+        
+        //Episode data
         public List<int> EpisodesIds {get; set; } = new List<int>();
 
         private List<Episode> _episodes;
@@ -59,7 +104,6 @@ namespace RickAndMorty.Model
                 return _episodes;
             }
         }
-
         private async void LoadEpisodesAsync()
         {
             if (EpisodeAPIRepository.GetInstance().NextPage == null)
