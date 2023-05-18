@@ -60,6 +60,7 @@ namespace RickAndMorty.ViewModel
             LoadEpisodes();
 
             LoadFilters();
+            _selectedFilter = Filters[0];
 
             SearchCommand = new RelayCommand<string>(LoadFilteredCharacters);
         }
