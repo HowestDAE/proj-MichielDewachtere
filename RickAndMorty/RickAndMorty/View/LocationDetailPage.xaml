@@ -32,7 +32,8 @@
                        FontSize="36" FontWeight="Bold"
                        Foreground="White"/>
         </Viewbox>
-        <Rectangle Fill="DarkOrange"
+        <Rectangle Grid.Row="0"
+                   Fill="DarkOrange"
                    Height="3" Width="300"
                    VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
         <!--Type and Dimension-->
