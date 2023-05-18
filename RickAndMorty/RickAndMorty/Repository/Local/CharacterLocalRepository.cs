@@ -98,20 +98,21 @@ namespace RickAndMorty.Repository.Local
 
         }
 
+
         public async Task<List<Character>> GetCharactersByOriginAsync(string origin)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Origin.Name.Equals(origin)).ToList();
-            return filteredCharacters;
-
+            //var filteredCharacters = characters.Where(c => c.Origin.Name.Equals(origin)).ToList();
+            //return filteredCharacters;
+            return null;
         }
 
         public async Task<List<Character>> GetCharactersByLocationAsync(string location)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Location.Name.Equals(location)).ToList();
-            return filteredCharacters;
-
+            //var filteredCharacters = characters.Where(c => c.Location.Name.Equals(location)).ToList();
+            //return filteredCharacters;
+            return null;
         }
 
         public async Task<List<Character>> GetCharactersByEpisodeAsync(string episode)
