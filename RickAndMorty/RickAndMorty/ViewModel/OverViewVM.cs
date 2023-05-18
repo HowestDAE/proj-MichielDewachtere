@@ -3,6 +3,7 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RickAndMorty.Model;
+using RickAndMorty.Repository.API;
 using RickAndMorty.Repository.Interface;
 using RickAndMorty.Repository.Local;
 
@@ -47,7 +48,8 @@ namespace RickAndMorty.ViewModel
 
         public OverViewVM()
         {
-            _characterRepository = new CharacterLocalRepository();
+            _characterRepository = new CharacterAPIRepository();
+            //_characterRepository = new CharacterLocalRepository();
             LoadCharacters();
 
             LoadFilters();
