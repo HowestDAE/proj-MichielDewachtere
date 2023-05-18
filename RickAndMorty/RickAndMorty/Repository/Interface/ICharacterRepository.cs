@@ -7,6 +7,7 @@ namespace RickAndMorty.Repository.Interface
     public interface ICharacterRepository
     {
         Task<List<Character>> GetCharactersAsync();
+        Task<List<Character>> GetCharactersByIdsAsync(List<int> ids);
         Task<List<Character>> GetCharactersByNameAsync(string name);
         Task<List<Character>> GetCharactersByStatusAsync(string status);
         Task<List<Character>> GetCharactersBySpeciesAsync(string species);
