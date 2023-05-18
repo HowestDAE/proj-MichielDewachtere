@@ -93,7 +93,7 @@
                      ItemsSource="{Binding CurrentEpisode.Characters}"
                      Background="Transparent"
                      BorderThickness="0"
-                     HorizontalAlignment="Center"
+                     HorizontalAlignment="Stretch"
                      HorizontalContentAlignment="Center">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
