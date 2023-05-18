@@ -5,6 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:RickAndMorty.ViewModel"
       xmlns:converter="clr-namespace:RickAndMorty.View.Converters"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:rickAndMorty="clr-namespace:RickAndMorty"
       mc:Ignorable="d" 
       d:DesignHeight="680" d:DesignWidth="570"
       Title="CharacterDetailPage"
@@ -14,6 +16,7 @@
         <vm:CharacterDetailPageVM/>
     </Page.DataContext>
     <Page.Resources>
+        <!--<vm:MainVM x:Key="MainVm"/>-->
         <converter:UrlToImageConverter x:Key="UrlToImageConverter"/>
         <converter:StatusToColorConverter x:Key="StatusToColorConverter"/>
     </Page.Resources>
@@ -103,18 +106,44 @@
             <Rectangle
                 Grid.Column="0"
                 Height="2"
-                Margin="50, 0,50,25"
+                Margin="50, 0,50,0"
                 Fill="DarkOrange"/>
+            <!--<Viewbox Grid.Column="0" 
+                     Stretch="Uniform" StretchDirection="DownOnly"
+                     Margin="5,0,5,0" 
+                     VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <TextBlock
+                    Text="{Binding CurrentCharacter.Origin.Name, FallbackValue=Unknown}"
+                    FontSize="28" FontWeight="DemiBold"
+                    Foreground="White"/>
+            </Viewbox>-->
             <Viewbox Grid.Column="0" 
                      Stretch="Uniform" StretchDirection="DownOnly"
-                     Margin="5,0,5,0" >
-                <TextBlock
-                    Text="{Binding CurrentCharacter.Origin.Name}"
-                    FontSize="28" FontWeight="DemiBold"
-                    Foreground="White"
-                    
-                    VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                     Margin="5,0,5,0" 
+                     VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding CurrentCharacter.Origin.Name, FallbackValue=Unknown}"
+                           FontSize="28" FontWeight="DemiBold">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding SelectOriginCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="White" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding OriginSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="DarkOrange" />
+                                </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="DarkOrange" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </Viewbox>
+
             <!--Last known location of the character-->
             <TextBlock
                 Grid.Column="1"
@@ -125,16 +154,42 @@
             <Rectangle
                 Grid.Column="1"
                 Height="2"
-                Margin="50, 0,50,25"
+                Margin="50, 0,50,0"
                 Fill="DarkOrange"/>
+            <!--<Viewbox Grid.Column="1" 
+                     Stretch="Uniform" StretchDirection="DownOnly"
+                     Margin="5,0,5,0"
+                     VerticalAlignment="Bottom">
+                <TextBlock
+                    Text="{Binding CurrentCharacter.Location.Name, FallbackValue=Unknown}"
+                    FontSize="28" FontWeight="DemiBold"
+                    Foreground="White"/>
+            </Viewbox>-->
             <Viewbox Grid.Column="1" 
                      Stretch="Uniform" StretchDirection="DownOnly"
-                     Margin="5,0,5,0">
-                <TextBlock
-                    Text="{Binding CurrentCharacter.Location.Name}"
-                    FontSize="28" FontWeight="DemiBold"
-                    Foreground="White"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                     Margin="5,0,5,0" 
+                     VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding CurrentCharacter.Location.Name, FallbackValue=Unknown}"
+                           FontSize="28" FontWeight="DemiBold">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding SelectLocationCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="White" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LocationSelected}" Value="True">
+                                    <Setter Property="Foreground" Value="DarkOrange" />
+                                </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="DarkOrange" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </Viewbox>
         </Grid>
         <Grid Grid.Row="3"
