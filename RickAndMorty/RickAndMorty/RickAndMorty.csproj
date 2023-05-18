@@ -177,14 +177,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\SeasonThumbnails\Season01.jpg" />
-    <Resource Include="Resources\SeasonThumbnails\Season02.jpg" />
-    <Resource Include="Resources\SeasonThumbnails\Season03.jpg" />
-    <Resource Include="Resources\SeasonThumbnails\Season04.jpg" />
-    <Resource Include="Resources\SeasonThumbnails\Season05.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\TestImages\RickSanchez.jpeg" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\SeasonThumbnails\Season01.png" />
+    <Resource Include="Resources\SeasonThumbnails\Season02.png" />
+    <Resource Include="Resources\SeasonThumbnails\Season03.png" />
+    <Resource Include="Resources\SeasonThumbnails\Season04.png" />
+    <Resource Include="Resources\SeasonThumbnails\Season05.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.2.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.2.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
