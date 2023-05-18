@@ -9,11 +9,10 @@
         Title="MainWindow" Height="680" Width="570"
         Background="#333">
     
-    <Window.Content>
+    <!--<Window.Content>
         <view:LocationDetailPage/>
-    </Window.Content>
+    </Window.Content>-->
 
-    <!--
     <Window.DataContext>
         <vm:MainVM/>
     </Window.DataContext>
@@ -23,5 +22,5 @@
         <Button VerticalAlignment="Bottom"
                 Command="{Binding SwitchPageCommand}"
                 Content="{Binding CommandText}"/>
-    </Grid>-->
+    </Grid>
 </Window>
