@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RickAndMorty.Model;
@@ -12,6 +13,7 @@ namespace RickAndMorty.ViewModel
         public OverViewPage MainPage { get; set; }
         public CharacterDetailPage CharacterDetailPage { get; set; }
         public EpisodeDetailPage EpisodeDetailPage { get; set; }
+        public LocationDetailPage LocationDetailPage { get; set; }
         public Page CurrentPage { get; set; }
         
         public string CommandText { get; set; }
@@ -24,6 +26,7 @@ namespace RickAndMorty.ViewModel
             MainPage = new OverViewPage();
             CharacterDetailPage = new CharacterDetailPage();
             EpisodeDetailPage = new EpisodeDetailPage();
+            LocationDetailPage = new LocationDetailPage();
             CurrentPage = MainPage;
 
             CommandText = "Show Details";
@@ -63,21 +66,49 @@ namespace RickAndMorty.ViewModel
                     return;
                 }
 
-                Episode selectedEpisode = characterPageVm.SelectedEpisode;
-                if (selectedEpisode == null)
+                if (characterPageVm.OriginSelected || characterPageVm.LocationSelected)
                 {
-                    Console.WriteLine("SelectedEpisode was null");
-                    return;
+                    Location selectedLocation = characterPageVm.SelectedLocation;
+                    if (selectedLocation == null) 
+                        return;
+
+                    ((LocationDetailPageVM)LocationDetailPage.DataContext).CurrentLocation = selectedLocation;
+
+                    characterPageVm.OriginSelected = false;
+                    characterPageVm.LocationSelected = false;
+
+                    CurrentPage = LocationDetailPage;
+                    OnPropertyChanged(nameof(CurrentPage));
                 }
+                else
+                {
+                    Episode selectedEpisode = characterPageVm.SelectedEpisode;
+                    if (selectedEpisode == null)
+                    {
+                        Console.WriteLine("SelectedEpisode was null");
+                        return;
+                    }
 
-                ((EpisodeDetailPageVM)EpisodeDetailPage.DataContext).CurrentEpisode = selectedEpisode;
-
-                CurrentPage = EpisodeDetailPage;
-                OnPropertyChanged(nameof(CurrentPage));
+                    ((EpisodeDetailPageVM)EpisodeDetailPage.DataContext).CurrentEpisode = selectedEpisode;
+                    
+                    CurrentPage = EpisodeDetailPage;
+                    OnPropertyChanged(nameof(CurrentPage));
+                }
             }
             else if (CurrentPage is EpisodeDetailPage)
             {
                 Character selectedCharacter = (CurrentPage.DataContext as EpisodeDetailPageVM)?.SelectedCharacter;
+                if (selectedCharacter == null)
+                    return;
+
+                ((CharacterDetailPageVM)CharacterDetailPage.DataContext).CurrentCharacter = selectedCharacter;
+
+                CurrentPage = CharacterDetailPage;
+                OnPropertyChanged(nameof(CurrentPage));
+            }
+            else if (CurrentPage is LocationDetailPage)
+            {
+                Character selectedCharacter = (CurrentPage.DataContext as LocationDetailPageVM)?.SelectedResident;
                 if (selectedCharacter == null)
                     return;
 
