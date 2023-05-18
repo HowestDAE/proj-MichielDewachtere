@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RickAndMorty.Repository.API;
 
 namespace RickAndMorty.Model
 {
@@ -43,6 +44,29 @@ namespace RickAndMorty.Model
                 return $"https://rickandmortyapi.com/api/character/avatar/{Id}.jpeg";
             }
         }
-        public List<Episode> Episodes {get; set; } = new List<Episode>();
+        public List<int> EpisodesIds {get; set; } = new List<int>();
+
+        private List<Episode> _episodes;
+        private bool _isEpisodesLoaded;
+        public List<Episode> Episodes
+        {
+            get
+            {
+                if (!_isEpisodesLoaded)
+                {
+                    LoadEpisodesAsync();
+                }
+                return _episodes;
+            }
+        }
+
+        private async void LoadEpisodesAsync()
+        {
+            if (EpisodeAPIRepository.GetInstance().NextPage == null)
+            {
+                _episodes = await EpisodeAPIRepository.GetInstance().GetEpisodesByIdsAsync(EpisodesIds);
+                _isEpisodesLoaded = true;
+            }
+        }
     }
 }
