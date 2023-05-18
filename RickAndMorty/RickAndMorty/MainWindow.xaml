@@ -10,7 +10,7 @@
         Background="#333">
     
     <Window.Content>
-        <view:EpisodeDetailPage/>
+        <view:LocationDetailPage/>
     </Window.Content>
 
     <!--
