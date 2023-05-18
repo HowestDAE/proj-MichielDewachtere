@@ -43,6 +43,6 @@ namespace RickAndMorty.Model
                 return $"https://rickandmortyapi.com/api/character/avatar/{Id}.jpeg";
             }
         }
-        public List<Episode> Episodes {get; set; }
+        public List<Episode> Episodes {get; set; } = new List<Episode>();
     }
 }
