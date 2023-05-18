@@ -9,12 +9,15 @@ namespace RickAndMorty.ViewModel
 {
     public class MainVM : ObservableObject
     {
-        public string CommandText { get; set; }
         public OverViewPage MainPage { get; set; }
         public CharacterDetailPage CharacterDetailPage { get; set; }
         public EpisodeDetailPage EpisodeDetailPage { get; set; }
         public Page CurrentPage { get; set; }
+        
+        public string CommandText { get; set; }
         public RelayCommand SwitchPageCommand { get; set; }
+        public string GoBackCommandText { get; set; }
+        public RelayCommand GoBackCommand { get; set; }
 
         public MainVM()
         {
@@ -24,8 +27,10 @@ namespace RickAndMorty.ViewModel
             CurrentPage = MainPage;
 
             CommandText = "Show Details";
+            GoBackCommandText = "Back To Overview";
 
             SwitchPageCommand = new RelayCommand(SwitchPage);
+            GoBackCommand = new RelayCommand(GoBack);
         }
 
         public void SwitchPage()
@@ -81,6 +86,12 @@ namespace RickAndMorty.ViewModel
                 CurrentPage = CharacterDetailPage;
                 OnPropertyChanged(nameof(CurrentPage));
             }
+        }
+
+        public void GoBack()
+        {
+            CurrentPage = MainPage;
+            OnPropertyChanged(nameof(CurrentPage));
         }
     }
 }

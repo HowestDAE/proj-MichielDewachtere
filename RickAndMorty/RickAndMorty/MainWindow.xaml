@@ -6,9 +6,9 @@
         xmlns:view="clr-namespace:RickAndMorty.View"
         xmlns:vm="clr-namespace:RickAndMorty.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="680" Width="570"
+        Title="MainWindow" Height="700" Width="570"
         Background="#333">
-    
+
     <!--<Window.Content>
         <view:LocationDetailPage/>
     </Window.Content>-->
@@ -17,10 +17,28 @@
         <vm:MainVM/>
     </Window.DataContext>
     <Grid>
-        <Frame NavigationUIVisibility="Hidden"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.05*"/>
+        </Grid.RowDefinitions>
+        <Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+               NavigationUIVisibility="Hidden"
                Content="{Binding CurrentPage}"/>
-        <Button VerticalAlignment="Bottom"
+        <Button Grid.Column="0" Grid.Row="1" 
+                VerticalAlignment="Center"
+                Margin="0,0,5,0"
+                Command="{Binding GoBackCommand}"
+                Content="{Binding GoBackCommandText}"
+                Height="20"/>
+        <Button Grid.Column="1" Grid.Row="1"
+                VerticalAlignment="Center"
+                Margin="5,0,0,0"
                 Command="{Binding SwitchPageCommand}"
-                Content="{Binding CommandText}"/>
+                Content="{Binding CommandText}"
+                Height="20"/>
     </Grid>
 </Window>
