@@ -13,22 +13,35 @@ namespace RickAndMorty.Repository.API
     public class CharacterAPIRepository : ICharacterRepository
     {
         private List<Character> _characters { get; set; } = new List<Character>();
-        private readonly Uri _baseAdress = new Uri("https://rickandmortyapi.com/api/character");
-        private Uri _nextPage;
+        public Uri NextPage = new Uri("https://rickandmortyapi.com/api/character");
 
-        public CharacterAPIRepository()
+        // Singleton instance
+        private static CharacterAPIRepository _instance;
+
+        // Private constructor to prevent external instantiation
+        private CharacterAPIRepository()
         {
-            _nextPage = _baseAdress;
+        }
+
+        // Public static method to access the singleton instance
+        public static CharacterAPIRepository GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new CharacterAPIRepository();
+            }
+
+            return _instance;
         }
 
         public async Task<List<Character>> GetCharactersAsync()
         {
-            if (_nextPage == null)
+            if (NextPage == null)
                 return _characters;
 
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = _nextPage;
+                client.BaseAddress = NextPage;
 
                 HttpResponseMessage response = await client.GetAsync("");
 
@@ -37,15 +50,20 @@ namespace RickAndMorty.Repository.API
                     var responseData = await response.Content.ReadAsStringAsync();
                     var pageInfo = JObject.Parse(responseData)/*["results"]*/;
                     var characters = pageInfo.Value<JArray>("results");
-                    var characterList = JsonConvert.DeserializeObject<List<Character>>(characters.ToString());
+                    //var characterList = JsonConvert.DeserializeObject<List<Character>>(characters.ToString());
+                    var characterList = DeserializeCharacter(characters);
                     if (characterList != null) 
                         _characters.AddRange(characterList);
 
                     var adress = pageInfo.Value<JObject>("info").Value<string>("next");
                     if (adress != null)
                     {
-                        _nextPage = new Uri(adress);
+                        NextPage = new Uri(adress);
                         await GetCharactersAsync();
+                    }
+                    else
+                    {
+                        NextPage = null;
                     }
 
                     return _characters;
@@ -53,6 +71,62 @@ namespace RickAndMorty.Repository.API
             }
 
             return null;
+        }
+
+        public async Task<List<Character>> GetCharactersByIdsAsync(List<int> ids)
+        {
+            var characters = await GetCharactersAsync();
+            var filteredCharacters = characters.Where(c => ids.Contains(c.Id)).ToList();
+            return filteredCharacters;
+        }
+
+        public List<Character> DeserializeCharacter(JArray characterList)
+        {
+            var characters = new List<Character>();
+
+            foreach (var character in characterList)
+            {
+                var newCharacter = new Character()
+                {
+                    Id = character.Value<int>("id"),
+                    Name = character.Value<string>("name"),
+                    Status = character.Value<string>("status"),
+                    Species = character.Value<string>("species"),
+                    Type = character.Value<string>("type"),
+                    Gender = character.Value<string>("gender"),
+                    Origin = new Location(),
+                    Location = new Location(),
+                    EpisodesIds = new List<int>()
+                };
+
+                var episodes = character.Value<JArray>("episode");
+                if (episodes != null)
+                {
+                    var episodeIds = new List<int>();
+                    foreach (var episode in episodes)
+                    {
+                        var address = episode.Value<string>();
+
+                        // Find the index of the first forward slash after the word "character"
+                        int slashIndex = address.IndexOf("/episode/") + "/episode/".Length;
+
+                        // Extract the substring starting from the index of the first forward slash
+                        string idString = address.Substring(slashIndex);
+
+                        // Parse the extracted substring to an integer
+                        int id;
+                        if (int.TryParse(idString, out id))
+                        {
+                            episodeIds.Add(id);
+                        }
+                    }
+
+                    newCharacter.EpisodesIds.AddRange(episodeIds);
+                }
+                characters.Add(newCharacter);
+            }
+
+            return characters;
         }
 
         public async Task<List<Character>> GetCharactersByNameAsync(string name)
@@ -111,9 +185,9 @@ namespace RickAndMorty.Repository.API
         public async Task<List<Character>> GetCharactersByEpisodeAsync(string episode)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Episodes.Exists(e => e.Name.Equals(episode))).ToList();
-            return filteredCharacters;
-
+            //var filteredCharacters = characters.Where(c => c.Episodes.Exists(e => e.Name.Equals(episode))).ToList();
+            //return filteredCharacters;
+            return null;
         }
     }
 }
