@@ -27,7 +27,7 @@ namespace RickAndMorty.View.Converters
 
             var seasonNumber = match.Groups[1].Value;
 
-            var uri = new Uri($"pack://application:,,,/Resources/SeasonThumbnails/Season{seasonNumber}.png");
+            var uri = new Uri($"pack://application:,,,/Resources/SeasonThumbnails/Season{seasonNumber}.jpg");
             var image = new BitmapImage(uri);
 
             return image;
