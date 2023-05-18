@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:RickAndMorty.ViewModel"
+      xmlns:converter="clr-namespace:RickAndMorty.View.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="680" d:DesignWidth="570"
       Title="EpisodeDetailPage">
@@ -11,7 +12,9 @@
     <Page.DataContext>
         <vm:EpisodeDetailPageVM/>
     </Page.DataContext>
-
+    <Page.Resources>
+        <converter:EpisodeToImageConverter x:Key="EpisodeToImageConverter"/>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
@@ -37,7 +40,7 @@
             <!--Image of Season-->
             <Image
                 Grid.RowSpan="2"
-                Source="../Resources/TestImages/Season01.png"
+                Source="{Binding CurrentEpisode.EpisodeNumber, Converter={StaticResource EpisodeToImageConverter}}"
                 Margin="10, 10,10,0"
                 VerticalAlignment="Bottom"/>
             <!--Name of the episode-->
