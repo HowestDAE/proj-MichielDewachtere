@@ -12,6 +12,6 @@ namespace RickAndMorty.Model
         public string Name { get; set; }
         public string Type { get; set; }
         public string Dimension { get; set; }
-        public List<Character> Residents { get; set; }
+        //public List<Character> Residents { get; set; }
     }
 }
