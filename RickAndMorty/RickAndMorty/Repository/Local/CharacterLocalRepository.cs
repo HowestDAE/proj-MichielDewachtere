@@ -39,12 +39,12 @@ namespace RickAndMorty.Repository.Local
                         if (episodes != null)
                             for (int j = 0; j < episodes.Count; ++j)
                             {
-                                _characters[i].Episodes.Add(new Episode());
-                                _characters[i].Episodes[j].Id = episodes[j].Value<int>("id");
-                                _characters[i].Episodes[j].Name = episodes[j].Value<string>("name");
-                                _characters[i].Episodes[j].AirDate = episodes[j].Value<string>("air_date");
-                                _characters[i].Episodes[j].EpisodeNumber = episodes[j].Value<string>("episode");
-                                _characters[i].Episodes[j].Characters = new List<Character>();
+                                //_characters[i].Episodes.Add(new Episode());
+                                //_characters[i].Episodes[j].Id = episodes[j].Value<int>("id");
+                                //_characters[i].Episodes[j].Name = episodes[j].Value<string>("name");
+                                //_characters[i].Episodes[j].AirDate = episodes[j].Value<string>("air_date");
+                                //_characters[i].Episodes[j].EpisodeNumber = episodes[j].Value<string>("episode");
+                                //_characters[i].Episodes[j].Characters = new List<Character>();
                             }
                         //var episodes = characters[i]["episode"].ToObject<JArray>();
                         //var episodes = characters["episode"].ToObject<List<JObject>>().Select(e => e["name"].ToString()).ToList();
@@ -54,6 +54,11 @@ namespace RickAndMorty.Repository.Local
                     return _characters;
                 }
             }
+        }
+
+        public Task<List<Character>> GetCharactersByIdsAsync(List<int> ids)
+        {
+            throw new System.NotImplementedException();
         }
 
         public async Task<List<Character>> GetCharactersByNameAsync(string name)
@@ -112,9 +117,9 @@ namespace RickAndMorty.Repository.Local
         public async Task<List<Character>> GetCharactersByEpisodeAsync(string episode)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Episodes.Exists(e => e.Name.Equals(episode))).ToList();
-            return filteredCharacters;
-
+            //var filteredCharacters = characters.Where(c => c.Episodes.Exists(e => e.Name.Equals(episode))).ToList();
+            //return filteredCharacters;
+            return null;
         }
     }
 }
