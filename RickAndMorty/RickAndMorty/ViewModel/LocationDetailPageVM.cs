@@ -20,6 +20,22 @@ namespace RickAndMorty.ViewModel
             }
         }
 
+        private Character _selectedResident;
+
+        public Character SelectedResident
+        {
+            get { return _selectedResident; }
+            set
+            {
+                if (_selectedResident != value)
+                {
+                    _selectedResident = value;
+                    OnPropertyChanged(nameof(_selectedResident));
+                }
+            }
+        }
+
+
         public LocationDetailPageVM()
         {
             CurrentLocation = new Location()
