@@ -38,8 +38,10 @@
                     CommandParameter="{Binding ElementName=TxtSearch, Path=Text}"/>
         </Grid>
         <!-- listbox for (filtered?) characters -->
-        <ListBox Grid.Row="1" Foreground="White" Background="Transparent"
-                 ItemsSource="{Binding Characters}" SelectedItem="{Binding SelectedCharacter}">
+        <ListBox Grid.Row="1" 
+                 Background="Transparent"
+                 ItemsSource="{Binding Characters}" 
+                 SelectedItem="{Binding SelectedCharacter}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
