@@ -13,11 +13,11 @@ namespace RickAndMorty.ViewModel
 			get { return _currentEpisode; }
             set
             {
-                if (_currentEpisode != value)
-                {
+                //if (_currentEpisode != value)
+                //{
                     _currentEpisode = value;
-                    OnPropertyChanged(nameof(_currentEpisode));
-                }
+                    OnPropertyChanged(nameof(CurrentEpisode));
+                //}
             }
         }
 
