@@ -29,8 +29,28 @@ namespace RickAndMorty.Repository.Local
                 {
                     var json = await reader.ReadToEndAsync();
                     var characters = JObject.Parse(json)["results"];
+                    //var characters = JObject.Parse(json)["results"];
                     _characters = JsonConvert.DeserializeObject<List<Character>>(characters.ToString());
-                    
+
+                    for (int i = 0; i < _characters.Count; ++i)
+                    {
+                        var episodes = characters[i].Value<JArray>("episode");
+                        //_characters[i].Episodes = JsonConvert.DeserializeObject<List<Episode>>(episodes.ToString());
+                        if (episodes != null)
+                            for (int j = 0; j < episodes.Count; ++j)
+                            {
+                                _characters[i].Episodes.Add(new Episode());
+                                _characters[i].Episodes[j].Id = episodes[j].Value<int>("id");
+                                _characters[i].Episodes[j].Name = episodes[j].Value<string>("name");
+                                _characters[i].Episodes[j].AirDate = episodes[j].Value<string>("air_date");
+                                _characters[i].Episodes[j].EpisodeNumber = episodes[j].Value<string>("episode");
+                                _characters[i].Episodes[j].Characters = new List<Character>();
+                            }
+                        //var episodes = characters[i]["episode"].ToObject<JArray>();
+                        //var episodes = characters["episode"].ToObject<List<JObject>>().Select(e => e["name"].ToString()).ToList();
+                        //character.Episodes.AddRange();
+                    }
+
                     return _characters;
                 }
             }
