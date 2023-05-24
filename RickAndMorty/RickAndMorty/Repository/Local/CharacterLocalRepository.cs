@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Windows.Media.TextFormatting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RickAndMorty.Model;
@@ -13,11 +14,31 @@ namespace RickAndMorty.Repository.Local
 {
     public class CharacterLocalRepository : ICharacterRepository
     {
-        private List<Character> _characters { get; set; }
+        private List<Character> _characters { get; set; } = new List<Character>(); 
+        public int AmountOfCharacters
+        {
+            get { return _characters.Count; }
+        }
+
+
+        private static CharacterLocalRepository _instance;
+        private CharacterLocalRepository()
+        {
+        }
+
+        public static CharacterLocalRepository GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new CharacterLocalRepository();
+            }
+
+            return _instance;
+        }
 
         public async Task<List<Character>> GetCharactersAsync()
         {
-            if (_characters != null)
+            if (_characters.Count != 0)
                 return _characters;
 
             var assembly = Assembly.GetExecutingAssembly();
@@ -28,64 +49,120 @@ namespace RickAndMorty.Repository.Local
                 using (var reader = new StreamReader(stream))
                 {
                     var json = await reader.ReadToEndAsync();
-                    var characters = JObject.Parse(json)["results"];
-                    //var characters = JObject.Parse(json)["results"];
-                    _characters = JsonConvert.DeserializeObject<List<Character>>(characters.ToString());
-
-                    for (int i = 0; i < _characters.Count; ++i)
-                    {
-                        var episodes = characters[i].Value<JArray>("episode");
-                        //_characters[i].Episodes = JsonConvert.DeserializeObject<List<Episode>>(episodes.ToString());
-                        if (episodes != null)
-                            for (int j = 0; j < episodes.Count; ++j)
-                            {
-                                //_characters[i].Episodes.Add(new Episode());
-                                //_characters[i].Episodes[j].Id = episodes[j].Value<int>("id");
-                                //_characters[i].Episodes[j].Name = episodes[j].Value<string>("name");
-                                //_characters[i].Episodes[j].AirDate = episodes[j].Value<string>("air_date");
-                                //_characters[i].Episodes[j].EpisodeNumber = episodes[j].Value<string>("episode");
-                                //_characters[i].Episodes[j].Characters = new List<Character>();
-                            }
-                        //var episodes = characters[i]["episode"].ToObject<JArray>();
-                        //var episodes = characters["episode"].ToObject<List<JObject>>().Select(e => e["name"].ToString()).ToList();
-                        //character.Episodes.AddRange();
-                    }
+                    var pageInfo = JObject.Parse(json);
+                    var characters = pageInfo.Value<JArray>("results");
+                    var characterList = DeserializeCharacter(characters);
+                    if (characterList != null)
+                        _characters.AddRange(characterList);
 
                     return _characters;
                 }
             }
         }
 
-        public Task<List<Character>> GetCharactersByIdsAsync(List<int> ids)
+        public List<Character> DeserializeCharacter(JArray characterList)
         {
-            throw new System.NotImplementedException();
+            var characters = new List<Character>();
+
+            foreach (var character in characterList)
+            {
+                var newCharacter = new Character()
+                {
+                    Id = character.Value<int>("id"),
+                    Name = character.Value<string>("name"),
+                    Status = character.Value<string>("status"),
+                    Species = character.Value<string>("species"),
+                    Type = character.Value<string>("type"),
+                    Gender = character.Value<string>("gender"),
+                    OriginId = GetIdFromLocationURL(character.Value<JObject>("origin")?.Value<string>("url")),
+                    LocationId = GetIdFromLocationURL(character.Value<JObject>("location")?.Value<string>("url")),
+                    EpisodesIds = new List<int>()
+                };
+
+                var episodes = character.Value<JArray>("episode");
+                if (episodes != null)
+                {
+                    var episodeIds = new List<int>();
+                    foreach (var episode in episodes)
+                    {
+                        var address = episode.Value<string>();
+
+                        if (address != null)
+                        {
+                            int slashIndex = address.IndexOf("/episode/", StringComparison.Ordinal) +
+                                             "/episode/".Length;
+                            string idString = address.Substring(slashIndex);
+
+                            int id;
+                            if (int.TryParse(idString, out id))
+                            {
+                                episodeIds.Add(id);
+                            }
+                        }
+                    }
+
+                    newCharacter.EpisodesIds.AddRange(episodeIds);
+                }
+
+                characters.Add(newCharacter);
+            }
+
+            return characters;
+        }
+
+        private int GetIdFromLocationURL(string url)
+        {
+            if (url == "")
+                return -1;
+
+            int slashIndex = url.IndexOf("/location/") + "/location/".Length;
+            string idString = url.Substring(slashIndex);
+
+            int id = -1;
+            if (int.TryParse(idString, out id))
+            {
+                return id;
+            }
+
+            return id;
+        }
+
+        public async Task<List<Character>> GetCharactersByIdsAsync(List<int> ids)
+        {
+            var characters = await GetCharactersAsync();
+            var filteredCharacters = characters.Where(c => ids.Contains(c.Id)).ToList();
+
+            if (filteredCharacters == null || filteredCharacters.Count == 0)
+                return null;
+
+            return filteredCharacters;
         }
 
         public async Task<List<Character>> GetCharactersByNameAsync(string name)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Name.Equals(name)).ToList();
+            var filteredCharacters = characters.Where(c => c.Name.ToLower().Contains(name.ToLower())).ToList();
             return filteredCharacters;
         }
 
         public async Task<List<Character>> GetCharactersByStatusAsync(string status)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Status.Equals(status)).ToList();
+            var filteredCharacters = characters.Where(c => c.Status.ToLower().Equals(status.ToLower())).ToList();
             return filteredCharacters;
         }
 
         public async Task<List<Character>> GetCharactersBySpeciesAsync(string species)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Species.Equals(species)).ToList();
+            var filteredCharacters = characters.Where(c => c.Species.ToLower().Equals(species.ToLower())).ToList();
             return filteredCharacters;
         }
 
         public async Task<List<Character>> GetCharactersByTypeAsync(string type)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Type.Equals(type)).ToList();
+            var filteredCharacters = characters.Where(c => c.Type.ToLower().Equals("(" + type.ToLower() + ")")).ToList();
             return filteredCharacters;
 
         }
@@ -93,34 +170,29 @@ namespace RickAndMorty.Repository.Local
         public async Task<List<Character>> GetCharactersByGenderAsync(string gender)
         {
             var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => c.Gender.Equals(gender)).ToList();
+            var filteredCharacters = characters.Where(c => c.Gender.ToLower().Equals(gender.ToLower())).ToList();
             return filteredCharacters;
-
         }
-
 
         public async Task<List<Character>> GetCharactersByOriginAsync(string origin)
         {
             var characters = await GetCharactersAsync();
-            //var filteredCharacters = characters.Where(c => c.Origin.Name.Equals(origin)).ToList();
-            //return filteredCharacters;
-            return null;
+            var filteredCharacters = characters.Where(c => c.Origin != null && c.Origin.Name != null && c.Origin.Name.ToLower().Contains(origin.ToLower())).ToList();
+            return filteredCharacters;
         }
 
         public async Task<List<Character>> GetCharactersByLocationAsync(string location)
         {
             var characters = await GetCharactersAsync();
-            //var filteredCharacters = characters.Where(c => c.Location.Name.Equals(location)).ToList();
-            //return filteredCharacters;
-            return null;
+            var filteredCharacters = characters.Where(c => c.Location != null && c.Location.Name != null && c.Location.Name.ToLower().Contains(location.ToLower())).ToList();
+            return filteredCharacters;
         }
 
         public async Task<List<Character>> GetCharactersByEpisodeAsync(string episode)
         {
             var characters = await GetCharactersAsync();
-            //var filteredCharacters = characters.Where(c => c.Episodes.Exists(e => e.Name.Equals(episode))).ToList();
-            //return filteredCharacters;
-            return null;
+            var filteredCharacters = characters.Where(c => c.Episodes.Exists(e => e.Name.ToLower().Contains(episode.ToLower()))).ToList();
+            return filteredCharacters;
         }
     }
 }

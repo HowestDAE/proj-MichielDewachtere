@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RickAndMorty.Repository.API;
+using RickAndMorty.Repository.Local;
+using RickAndMorty.ViewModel;
 
 namespace RickAndMorty.Model
 {
@@ -50,11 +52,22 @@ namespace RickAndMorty.Model
                 return _origin;
             }
         }
+
         private async void LoadOriginAsync(int id)
         {
-            if (LocationAPIRepository.GetInstance().NextPage == null)
+            if (MainVM.UseLocalAPI)
             {
-                _origin = await LocationAPIRepository.GetInstance().GetLocationByIdAsync(id);
+                if (LocationLocalRepository.GetInstance().AmountOfLocations != 0)
+                {
+                    _origin = await LocationLocalRepository.GetInstance().GetLocationByIdAsync(id);
+                }
+            }
+            else
+            {
+                if (LocationAPIRepository.GetInstance().NextPage == null)
+                {
+                    _origin = await LocationAPIRepository.GetInstance().GetLocationByIdAsync(id);
+                }
             }
         }
 
@@ -73,9 +86,19 @@ namespace RickAndMorty.Model
         }
         private async void LoadLocationAsync(int id)
         {
-            if (LocationAPIRepository.GetInstance().NextPage == null)
+            if (MainVM.UseLocalAPI)
             {
-                _location = await LocationAPIRepository.GetInstance().GetLocationByIdAsync(id);
+                if (LocationLocalRepository.GetInstance().AmountOfLocations != 0)
+                {
+                    _location = await LocationLocalRepository.GetInstance().GetLocationByIdAsync(id);
+                }
+            }
+            else
+            {
+                if (LocationAPIRepository.GetInstance().NextPage == null)
+                {
+                    _location = await LocationAPIRepository.GetInstance().GetLocationByIdAsync(id);
+                }
             }
         }
 
@@ -104,12 +127,24 @@ namespace RickAndMorty.Model
                 return _episodes;
             }
         }
+
         private async void LoadEpisodesAsync()
         {
-            if (EpisodeAPIRepository.GetInstance().NextPage == null)
+            if (MainVM.UseLocalAPI)
             {
-                _episodes = await EpisodeAPIRepository.GetInstance().GetEpisodesByIdsAsync(EpisodesIds);
-                _isEpisodesLoaded = true;
+                if (EpisodeLocalRepository.GetInstance().AmountOfEpisodes != 0)
+                {
+                    _episodes = await EpisodeLocalRepository.GetInstance().GetEpisodesByIdsAsync(EpisodesIds);
+                    _isEpisodesLoaded = true;
+                }
+            }
+            else
+            {
+                if (EpisodeAPIRepository.GetInstance().NextPage == null)
+                {
+                    _episodes = await EpisodeAPIRepository.GetInstance().GetEpisodesByIdsAsync(EpisodesIds);
+                    _isEpisodesLoaded = true;
+                }
             }
         }
     }

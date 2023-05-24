@@ -14,15 +14,10 @@ namespace RickAndMorty.Repository.API
         private List<Character> _characters { get; set; } = new List<Character>();
         public Uri NextPage = new Uri("https://rickandmortyapi.com/api/character");
 
-        // Singleton instance
         private static CharacterAPIRepository _instance;
-
-        // Private constructor to prevent external instantiation
         private CharacterAPIRepository()
         {
         }
-
-        // Public static method to access the singleton instance
         public static CharacterAPIRepository GetInstance()
         {
             if (_instance == null)
@@ -47,9 +42,8 @@ namespace RickAndMorty.Repository.API
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    var pageInfo = JObject.Parse(responseData)/*["results"]*/;
+                    var pageInfo = JObject.Parse(responseData);
                     var characters = pageInfo.Value<JArray>("results");
-                    //var characterList = JsonConvert.DeserializeObject<List<Character>>(characters.ToString());
                     var characterList = DeserializeCharacter(characters);
                     if (characterList != null) 
                         _characters.AddRange(characterList);
@@ -70,13 +64,6 @@ namespace RickAndMorty.Repository.API
             }
 
             return null;
-        }
-
-        public async Task<List<Character>> GetCharactersByIdsAsync(List<int> ids)
-        {
-            var characters = await GetCharactersAsync();
-            var filteredCharacters = characters.Where(c => ids.Contains(c.Id)).ToList();
-            return filteredCharacters;
         }
 
         public List<Character> DeserializeCharacter(JArray characterList)
@@ -106,15 +93,11 @@ namespace RickAndMorty.Repository.API
                     {
                         var address = episode.Value<string>();
 
-                        // Find the index of the first forward slash after the word "character"
                         if (address != null)
                         {
                             int slashIndex = address.IndexOf("/episode/", StringComparison.Ordinal) + "/episode/".Length;
-
-                            // Extract the substring starting from the index of the first forward slash
                             string idString = address.Substring(slashIndex);
 
-                            // Parse the extracted substring to an integer
                             int id;
                             if (int.TryParse(idString, out id))
                             {
@@ -150,6 +133,13 @@ namespace RickAndMorty.Repository.API
             }
 
             return id;
+        }
+
+        public async Task<List<Character>> GetCharactersByIdsAsync(List<int> ids)
+        {
+            var characters = await GetCharactersAsync();
+            var filteredCharacters = characters.Where(c => ids.Contains(c.Id)).ToList();
+            return filteredCharacters;
         }
 
         public async Task<List<Character>> GetCharactersByNameAsync(string name)
@@ -207,7 +197,6 @@ namespace RickAndMorty.Repository.API
             var characters = await GetCharactersAsync();
             var filteredCharacters = characters.Where(c => c.Episodes.Exists(e => e.Name.ToLower().Contains(episode.ToLower()))).ToList();
             return filteredCharacters;
-            return null;
         }
     }
 }
