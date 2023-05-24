@@ -1,8 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
 using System;
-using System.Net.Mime;
 using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
 
@@ -19,7 +17,6 @@ namespace RickAndMorty.View.Converters
             if (episode.Contains("S") == false)
                 return null;
 
-            // Extracting the two digits after "S" using regular expressions
             var regex = new Regex(@"S(\d{2})");
             var match = regex.Match(episode);
             if (!match.Success)

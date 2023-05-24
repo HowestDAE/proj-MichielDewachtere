@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using RickAndMorty.Model;
 
 namespace RickAndMorty.ViewModel
@@ -44,39 +43,7 @@ namespace RickAndMorty.ViewModel
                 Name = "Earth (C-137)",
                 Type = "Planet",
                 Dimension = "Dimension C-137",
-                //Residents = new List<Character>()
             };
-
-            //CurrentLocation.Residents.Add(new Character()
-            //{
-            //    Id = 1,
-            //    Name = "Rick Sanchez"
-            //});
-            //CurrentLocation.Residents.Add(new Character()
-            //{
-            //    Id = 2,
-            //    Name = "Morty Smith"
-            //});
-            //CurrentLocation.Residents.Add(new Character()
-            //{
-            //    Id = 3,
-            //    Name = "Beth"
-            //});
-            //CurrentLocation.Residents.Add(new Character()
-            //{
-            //    Id = 4,
-            //    Name = "Summer Smith"
-            //});
-            //CurrentLocation.Residents.Add(new Character()
-            //{
-            //    Id = 5,
-            //    Name = "Jerry Smith"
-            //});
-            //CurrentLocation.Residents.Add(new Character()
-            //{
-            //    Id = 6,
-            //    Name = "Someone Else idk"
-            //});
         }
     }
 }
