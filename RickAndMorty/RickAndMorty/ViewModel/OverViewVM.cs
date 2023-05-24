@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RickAndMorty.Model;
 using RickAndMorty.Repository.Abstract;
 using RickAndMorty.Repository.API;
-using RickAndMorty.Repository.Interface;
 using RickAndMorty.Repository.Local;
 
 namespace RickAndMorty.ViewModel
@@ -48,6 +46,8 @@ namespace RickAndMorty.ViewModel
 
 
         public RelayCommand<string> SearchCommand { get; private set; }
+
+        public string LoadingText { get; set; }
 
         public OverViewVM()
         {
@@ -95,7 +95,12 @@ namespace RickAndMorty.ViewModel
 
         private async void LoadCharacters()
         {
+            LoadingText = "Loading ...";
+
             Characters = await _characterRepository.GetCharactersAsync();
+
+            LoadingText = "";
+            OnPropertyChanged(LoadingText);
         }
 
         private async void LoadLocations()

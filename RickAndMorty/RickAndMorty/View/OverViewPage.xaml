@@ -38,6 +38,11 @@
                     CommandParameter="{Binding ElementName=TxtSearch, Path=Text}"/>
         </Grid>
         <!-- listbox for (filtered?) characters -->
+        <TextBlock Grid.Row="1" Grid.Column="0"
+                   Text="{Binding LoadingText}"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   FontSize="36" FontWeight="DemiBold"
+                   Foreground="White"/>
         <ListBox Grid.Row="1" 
                  Background="Transparent"
                  ItemsSource="{Binding Characters}" 
