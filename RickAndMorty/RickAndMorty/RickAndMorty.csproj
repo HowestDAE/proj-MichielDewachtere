@@ -180,9 +180,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\TestImages\RickSanchez.jpeg" />
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\SeasonThumbnails\Season01.png" />

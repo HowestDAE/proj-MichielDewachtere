@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows.Media.TextFormatting;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RickAndMorty.Model;
 using RickAndMorty.Repository.Abstract;
-using RickAndMorty.Repository.Interface;
 
 namespace RickAndMorty.Repository.Local
 {
