@@ -11,9 +11,9 @@ namespace RickAndMorty.ViewModel
 {
     public class OverViewVM : ObservableObject
     {
-        private readonly ICharacterRepository _characterRepository;
-        private readonly ILocationRepository _locationRepository;
-        private readonly IEpisodeRepository _episodeRepository;
+        private /*readonly*/ ICharacterRepository _characterRepository;
+        private /*readonly*/ ILocationRepository _locationRepository;
+        private /*readonly*/ IEpisodeRepository _episodeRepository;
 
         private List<Character> _characters;
         public List<Character> Characters
@@ -50,19 +50,46 @@ namespace RickAndMorty.ViewModel
 
         public OverViewVM()
         {
-            _characterRepository = CharacterLocalRepository.GetInstance();
+            _characterRepository = CharacterAPIRepository.GetInstance();
             LoadCharacters();
 
-            _locationRepository = LocationLocalRepository.GetInstance();
+            _locationRepository = LocationAPIRepository.GetInstance();
             LoadLocations();
 
-            _episodeRepository = EpisodeLocalRepository.GetInstance();
+            _episodeRepository = EpisodeAPIRepository.GetInstance();
             LoadEpisodes();
 
             LoadFilters();
             _selectedFilter = Filters[0];
 
             SearchCommand = new RelayCommand<string>(LoadFilteredCharacters);
+        }
+
+        public void SwitchRepo()
+        {
+            if (MainVM.UseLocalAPI)
+            {
+                _characterRepository = CharacterLocalRepository.GetInstance();
+                LoadCharacters();
+
+                _locationRepository = LocationLocalRepository.GetInstance();
+                LoadLocations();
+
+                _episodeRepository = EpisodeLocalRepository.GetInstance();
+                LoadEpisodes();
+            }
+            else
+            {
+                _characterRepository = CharacterAPIRepository.GetInstance();
+                LoadCharacters();
+
+                _locationRepository = LocationAPIRepository.GetInstance();
+                LoadLocations();
+
+                _episodeRepository = EpisodeAPIRepository.GetInstance();
+                LoadEpisodes();
+            }
+
         }
 
         private async void LoadCharacters()
