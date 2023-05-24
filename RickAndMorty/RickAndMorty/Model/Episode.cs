@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RickAndMorty.Repository.API;
+using RickAndMorty.Repository.Local;
+using RickAndMorty.ViewModel;
 
 namespace RickAndMorty.Model
 {
@@ -26,9 +28,19 @@ namespace RickAndMorty.Model
         }
         private async void LoadCharactersAsync()
         {
-            if (CharacterAPIRepository.GetInstance().NextPage == null)
+            if (MainVM.UseLocalAPI)
             {
-                _characters = await CharacterAPIRepository.GetInstance().GetCharactersByIdsAsync(CharacterIds);
+                if (CharacterLocalRepository.GetInstance().AmountOfCharacters != 0 && CharacterIds != null)
+                {
+                    _characters = await CharacterLocalRepository.GetInstance().GetCharactersByIdsAsync(CharacterIds);
+                }
+            }
+            else
+            {
+                if (CharacterAPIRepository.GetInstance().NextPage == null)
+                {
+                    _characters = await CharacterAPIRepository.GetInstance().GetCharactersByIdsAsync(CharacterIds);
+                }
             }
         }
     }

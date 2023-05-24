@@ -1,35 +1,33 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using RickAndMorty.Model;
+﻿using RickAndMorty.Model;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System;
-using System.Linq;
-using System.Net;
 using RickAndMorty.Repository.Interface;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+using RickAndMorty.Repository.API;
+using System;
+using System.IO;
+using System.Reflection;
 
-namespace RickAndMorty.Repository.API
+namespace RickAndMorty.Repository.Local
 {
-    public class EpisodeAPIRepository : IEpisodeRepository
+    public class EpisodeLocalRepository : IEpisodeRepository
     {
         private List<Episode> _episodes { get; set; } = new List<Episode>();
-        public Uri NextPage = new Uri("https://rickandmortyapi.com/api/episode");
-
-        // Singleton instance
-        private static EpisodeAPIRepository _instance;
-
-        // Private constructor to prevent external instantiation
-        private EpisodeAPIRepository()
+        public int AmountOfEpisodes
         {
+            get { return _episodes.Count; }
         }
 
-        // Public static method to access the singleton instance
-        public static EpisodeAPIRepository GetInstance()
+        private static EpisodeLocalRepository _instance;
+        private EpisodeLocalRepository()
+        {
+        }
+        public static EpisodeLocalRepository GetInstance()
         {
             if (_instance == null)
             {
-                _instance = new EpisodeAPIRepository();
+                _instance = new EpisodeLocalRepository();
             }
 
             return _instance;
@@ -37,40 +35,29 @@ namespace RickAndMorty.Repository.API
 
         public async Task<List<Episode>> GetEpisodesAsync()
         {
-            if (NextPage == null)
+            if (_episodes.Count != 0)
                 return _episodes;
 
-            using (HttpClient client = new HttpClient())
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "RickAndMorty.Resources.Data.episodes.json";
+
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
             {
-                client.BaseAddress = NextPage;
+                if (stream == null)
+                    return null;
 
-                HttpResponseMessage response = await client.GetAsync("");
-
-                if (response.IsSuccessStatusCode)
+                using (var reader = new StreamReader(stream))
                 {
-                    var responseData = await response.Content.ReadAsStringAsync();
-                    var pageInfo = JObject.Parse(responseData)/*["results"]*/;
+                    var json = await reader.ReadToEndAsync();
+                    var pageInfo = JObject.Parse(json);
                     var episodes = pageInfo.Value<JArray>("results");
-                    var episodeList = await DeserializeEpisodes(episodes);
-                    if (episodeList != null)
-                        _episodes.AddRange(episodeList);
-
-                    var adress = pageInfo.Value<JObject>("info").Value<string>("next");
-                    if (adress != null)
-                    {
-                        NextPage = new Uri(adress);
-                        await GetEpisodesAsync();
-                    }
-                    else
-                    {
-                        NextPage = null;
-                    }
+                    var episodeLit = await DeserializeEpisodes(episodes);
+                    if (episodeLit != null)
+                        _episodes.AddRange(episodeLit);
 
                     return _episodes;
                 }
             }
-
-            return null;
         }
 
         public async Task<List<Episode>> DeserializeEpisodes(JArray array)
@@ -96,13 +83,9 @@ namespace RickAndMorty.Repository.API
                     {
                         var address = character.Value<string>();
 
-                        // Find the index of the first forward slash after the word "character"
                         int slashIndex = address.IndexOf("/character/") + "/character/".Length;
-
-                        // Extract the substring starting from the index of the first forward slash
                         string idString = address.Substring(slashIndex);
 
-                        // Parse the extracted substring to an integer
                         int id;
                         if (int.TryParse(idString, out id))
                         {
@@ -119,6 +102,7 @@ namespace RickAndMorty.Repository.API
 
             return episodes;
         }
+
 
         public async Task<List<Episode>> GetEpisodesByIdsAsync(List<int> ids)
         {
