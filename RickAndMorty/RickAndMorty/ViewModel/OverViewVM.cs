@@ -3,6 +3,7 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RickAndMorty.Model;
+using RickAndMorty.Repository.Abstract;
 using RickAndMorty.Repository.API;
 using RickAndMorty.Repository.Interface;
 using RickAndMorty.Repository.Local;
@@ -11,9 +12,9 @@ namespace RickAndMorty.ViewModel
 {
     public class OverViewVM : ObservableObject
     {
-        private /*readonly*/ ICharacterRepository _characterRepository;
-        private /*readonly*/ ILocationRepository _locationRepository;
-        private /*readonly*/ IEpisodeRepository _episodeRepository;
+        private BaseCharacterRepository _characterRepository;
+        private BaseLocationRepository _locationRepository;
+        private BaseEpisodeRepository _episodeRepository;
 
         private List<Character> _characters;
         public List<Character> Characters
