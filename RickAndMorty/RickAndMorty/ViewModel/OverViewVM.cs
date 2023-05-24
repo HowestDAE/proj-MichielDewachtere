@@ -12,8 +12,8 @@ namespace RickAndMorty.ViewModel
     public class OverViewVM : ObservableObject
     {
         private readonly ICharacterRepository _characterRepository;
-        private readonly LocationAPIRepository _locationRepository;
-        private readonly EpisodeAPIRepository _episodeRepository;
+        private readonly ILocationRepository _locationRepository;
+        private readonly IEpisodeRepository _episodeRepository;
 
         private List<Character> _characters;
         public List<Character> Characters
@@ -50,13 +50,13 @@ namespace RickAndMorty.ViewModel
 
         public OverViewVM()
         {
-            _characterRepository = CharacterAPIRepository.GetInstance();
+            _characterRepository = CharacterLocalRepository.GetInstance();
             LoadCharacters();
-            //_characterRepository = new CharacterLocalRepository.GetInstance();
-            _locationRepository = LocationAPIRepository.GetInstance();
+
+            _locationRepository = LocationLocalRepository.GetInstance();
             LoadLocations();
 
-            _episodeRepository = EpisodeAPIRepository.GetInstance();
+            _episodeRepository = EpisodeLocalRepository.GetInstance();
             LoadEpisodes();
 
             LoadFilters();

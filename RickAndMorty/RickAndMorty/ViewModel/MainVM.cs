@@ -10,6 +10,8 @@ namespace RickAndMorty.ViewModel
 {
     public class MainVM : ObservableObject
     {
+        public static bool UseLocalAPI = true; 
+
         public OverViewPage MainPage { get; set; }
         public CharacterDetailPage CharacterDetailPage { get; set; }
         public EpisodeDetailPage EpisodeDetailPage { get; set; }
@@ -48,18 +50,9 @@ namespace RickAndMorty.ViewModel
 
                 CurrentPage = CharacterDetailPage;
                 OnPropertyChanged(nameof(CurrentPage));
-
-                //CommandText = "Go Back";
-                //OnPropertyChanged(nameof(CommandText));
             }
             else if (CurrentPage is CharacterDetailPage)
             {
-                //CurrentPage = MainPage;
-                //OnPropertyChanged(nameof(CurrentPage));
-                //
-                //CommandText = "Show Details";
-                //OnPropertyChanged(nameof(CommandText));
-
                 if (!(CurrentPage.DataContext is CharacterDetailPageVM characterPageVm))
                 {
                     Console.WriteLine("error");

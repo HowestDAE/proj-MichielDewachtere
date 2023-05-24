@@ -95,8 +95,12 @@
     <Compile Include="Repository\API\CharacterAPIRepository.cs" />
     <Compile Include="Repository\API\EpisodeAPIRepository.cs" />
     <Compile Include="Repository\API\LocationAPIRepository.cs" />
+    <Compile Include="Repository\Interface\IEpisodeRepository.cs" />
+    <Compile Include="Repository\Interface\ILocationRepository.cs" />
     <Compile Include="Repository\Local\CharacterLocalRepository.cs" />
     <Compile Include="Repository\Interface\ICharacterRepository.cs" />
+    <Compile Include="Repository\Local\EpisodeLocalRepository.cs" />
+    <Compile Include="Repository\Local\LocationLocalRepository.cs" />
     <Compile Include="ViewModel\CharacterDetailPageVM.cs" />
     <Compile Include="ViewModel\EpisodeDetailPageVM.cs" />
     <Compile Include="ViewModel\LocationDetailPageVM.cs" />
@@ -170,8 +174,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <EmbeddedResource Include="Resources\Data\characters.json" />
-    <None Include="Resources\Data\episode.json" />
-    <None Include="Resources\Data\location.json" />
+    <EmbeddedResource Include="Resources\Data\episodes.json" />
+    <EmbeddedResource Include="Resources\Data\locations.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
