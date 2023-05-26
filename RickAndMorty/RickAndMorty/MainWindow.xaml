@@ -6,7 +6,7 @@
         xmlns:view="clr-namespace:RickAndMorty.View"
         xmlns:vm="clr-namespace:RickAndMorty.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="570"
+        Title="Interdimensional Data Viewer" Height="700" Width="570"
         Background="#333">
 
     <!--<Window.Content>
